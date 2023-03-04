@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const cors = require("cors");
 const passport = require("passport");
 const indexRoute = require("./controllers/index");
 
@@ -15,6 +16,7 @@ db.on("error", () => console.log("Error while connecting database"));
 db.once("open", () => console.log("Database connected successfully"));
 
 // Adding middlewares
+app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 require("./strategies/jwtStrategy")(passport);
