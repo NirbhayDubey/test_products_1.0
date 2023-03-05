@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { useFormik } from "formik";
 import { useAppDispatch } from "../../app/hooks";
-import { fetchLogin } from "../../features/profile";
+import { fetchLogin } from "../../features/profileSlice";
 import { LoginCreds } from "../../types/common";
 import { useNavigate } from "react-router-dom";
 
@@ -55,6 +55,7 @@ const Login: FC<unknown> = () => {
                 <input
                   type="text"
                   name="email"
+                  value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder="Enter Email"
@@ -65,6 +66,7 @@ const Login: FC<unknown> = () => {
                 <input
                   type="password"
                   name="password"
+                  value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder="Passcode"

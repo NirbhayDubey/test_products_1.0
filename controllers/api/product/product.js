@@ -1,7 +1,19 @@
 const express = require("express");
+const multer = require("multer");
 const passport = require("passport");
 const Product = require("../../../models/Product");
 const router = express.Router();
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/images/");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now();
+    cb(null, file.fieldname + uniqueSuffix + "-" + file.originalname);
+  },
+});
+var upload = multer({ storage: storage });
 
 class ProductRoute {
   static async getAllProducts(req, res) {
@@ -25,12 +37,14 @@ class ProductRoute {
   }
   static async postProduct(req, res) {
     try {
+      const upImages = await req.files;
+      let upImagesNames = upImages.map((item) => item.filename);
       const newProduct = new Product({
         name: req.body.name,
         description: req.body.description,
         quantity: req.body.quantity,
         price: req.body.price,
-        image: req.body.image,
+        image: upImagesNames,
       });
       const result = await newProduct.save();
       if (!result) throw result;
@@ -102,7 +116,7 @@ router.get(
 );
 router.post(
   "/",
-  passport.authenticate("jwt", { session: false }),
+  [passport.authenticate("jwt", { session: false }), upload.array("image", 10)],
   ProductRoute.postProduct
 );
 router.put(

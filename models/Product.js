@@ -20,7 +20,7 @@ const ProductSchema = new Schema({
     min: 1,
   },
   image: {
-    type: String,
+    type: Array,
     required: false,
   },
 });

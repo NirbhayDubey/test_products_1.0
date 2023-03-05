@@ -6,10 +6,7 @@ import { LoginCreds } from "../types/common";
 type Profile = {
   _id: string;
   name: string;
-  price: number;
-  description: string;
-  quantity: number;
-  image: string;
+  email: string;
 };
 
 interface InitialState {

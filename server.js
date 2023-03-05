@@ -18,6 +18,8 @@ db.once("open", () => console.log("Database connected successfully"));
 // Adding middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("./public"));
 app.use(passport.initialize());
 require("./strategies/jwtStrategy")(passport);
 app.use("/", indexRoute);
